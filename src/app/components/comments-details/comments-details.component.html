@@ -1,0 +1,28 @@
+<div class="container">
+  <a class="btn btn-outline-success btn-block" routerLink="/comments">
+    Back To List Of Comments
+    <i class="fa fa-address-book"></i>
+  </a>
+</div>
+<br>
+<sk-wave *ngIf="!isLoading"></sk-wave>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header text-center">
+      Comments Details
+      <i class="fas fa-comments"></i>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title text-center">{{comment.name}}</h2>
+      <p class="card-text">
+        <strong>Id Comments :</strong>{{comment.id}}</p>
+      <p class="card-text">
+        <strong>Comments Email:</strong>{{comment.email}}</p>
+      <p class="card-text">
+        <strong>Comments Body:</strong>{{comment.body}}</p>
+    </div>
+    <div class="card-footer text-muted  text-center">
+      {{comment.postId}} days ago
+    </div>
+  </div>
+</div>

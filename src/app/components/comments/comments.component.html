@@ -1,0 +1,97 @@
+<ng-progress></ng-progress>
+<div class="container">
+  <button type="button" class="btn btn-success btn-lg btn-block" routerLink="/comments-add">Add Comments</button>
+  <br>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <span class="badge badge-pill badge-success float-right">Search By:</span>
+        <input type="text" class="form-control" placeholder="Enter the ..." [(ngModel)]="search">
+        <small class="form-text text-muted">Please entre you're key word.</small>
+      </div>
+    </div>
+    <div class="col">
+      <span class="badge badge-pill badge-success float-left">Filter By:</span>
+      <br>
+      <div class="btn-group">
+        <button type="button" class="btn btn-success">Items Per Pages :</button>
+        <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" (click)="getItemPages(2)">2</a>
+          <a class="dropdown-item" (click)="getItemPages(4)">4</a>
+          <a class="dropdown-item" (click)="getItemPages(6)">6</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <span class="badge badge-pill badge-success float-left">Group By:</span>
+      <br>
+      <div class="btn-group">
+        <button type="button" class="btn btn-success">Filter By Element :</button>
+        <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" (click)="getProperty('username')">By Name</a>
+          <a class="dropdown-item" (click)="getProperty('email')">By Email</a>
+          <a class="dropdown-item" (click)="getProperty('body')">By Body</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <span class="badge badge-pill badge-success float-right">Pages:{{comments?.length}}</span>
+      <br>
+      <input type="number" class="form-control" placeholder="Page.." [(ngModel)]="page" min="1">
+      <small class="form-text text-muted">Please entre page number..</small>
+    </div>
+  </div>
+
+</div>
+<br>
+<h3 class="font-italic text-center">All Comments Available
+  <i class="fas fa-comments"></i>
+</h3>
+<sk-wave *ngIf="!isLoading"></sk-wave>
+<div class="container-fluid">
+  <div class="card-deck">
+    <div class="card" *ngFor="let c of comments |filter:search | paginate: { itemsPerPage: itemsPerPage, currentPage: page } | orderBy: propertyName">
+      <div class="card-body">
+        <h5 class="card-title">{{c.name}}</h5>
+        <p class="card-text">
+          <strong>{{c.email}}</strong>
+        </p>
+        <p class="card-text">{{c.body}}</p>
+        <small class="text-muted">Last updated 3 mins ago
+        </small>
+        <span class="icon is-small">
+          <i class="fas fa-reply" aria-hidden="true"></i>
+        </span>
+        <bar-rating [(rate)]="rate" [max]="5" [showText]="false" [titles]="['Bad', 'Mediocre' , 'Good', 'Awesome']"></bar-rating>
+        <br>
+        <br>
+        <div class="card-text">
+          <button type="button" class="btn btn-warning" routerLink="/comments-update/{{c.id}}">
+            Update
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+          <button type="button" class="btn btn-danger btn-group-lg" (click)="deleteComments(c)">
+            Delete
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-success" routerLink="/comments-detail/{{c.id}}">
+          <i class="fas fa-eye"></i>View Details</button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="contanier-fluid text-center">
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
